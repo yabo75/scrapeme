@@ -12,8 +12,8 @@ def scrapeme
 
     dom = Nokogiri::HTML(response.body)
 
-    links = dom.css("a.hdrlnk", "a.href", "a.value")
-    classifications = dom.css("a.data-cat")
+    links = dom.css("a.hdrlnk", "a.href")
+    classifications = dom.css("a.data-cat", "a.value")
     @job_titles = links.map(&:to_str)
     @classifications = classifications.map(&:to_str)
 

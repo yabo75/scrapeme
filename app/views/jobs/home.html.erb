@@ -1,7 +1,10 @@
 
-<% @job_titles.each_with_index do |job, number, key| %>
+
+
+
+<% @job_titles.each_with_index do |job, number, link| %>
 <p>
-<%= number %>: <%= job %><br><%= key %>
+<%= number %>: <%= job %><br><%= link %>
 <br>
 </p>
 <% end %>
