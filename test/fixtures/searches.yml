@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  search_terms: MyString
+  telecommute: false
+  full_time: false
+
+two:
+  search_terms: MyString
+  telecommute: false
+  full_time: false

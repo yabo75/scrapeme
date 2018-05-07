@@ -1,39 +1,41 @@
 class JobsController < ApplicationController
 
-def scrapeme
+
+
+
+
+
+
+
+def nokotest
 
   require 'httparty'
   require 'nokogiri'
+  require 'open-uri'
+
+  doc = Nokogiri::HTML(open('https://miami.craigslist.org'))
+
+  puts "### Search for nodes by css"
+  doc.css('a', 'span').each do |link|
+    puts link.content
+  end
+
+  puts "### Search for nodes by xpath"
+  doc.xpath('/a', '/span').each do |link|
+    puts link.content
+  end
+
+  puts "### Or mix and match."
+  doc.search('a', '/span').each do |link|
+  puts link.content
+  end
 
 
-    search = params['job']
-    url = "https://miami.craigslist.org/search/#{search}"
-    response = HTTParty.get url
-
-    dom = Nokogiri::HTML(response.body)
-
-    links = dom.css("a.hdrlnk", "a.href")
-    classifications = dom.css("a.data-cat", "a.value")
-    @job_titles = links.map(&:to_str)
-    @classifications = classifications.map(&:to_str)
-
-
-    render template: 'jobs/home'
 end
+
+
+
+
+
+
 end
-
-
-
-# class ParallelController < ApplicationController
-#
-#   def parallelrate
-#     require 'openssl'
-#     doc = Nokogiri::HTML(open('https://www.abokifx.com/', :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
-#
-#     entries = doc.css('.lagos-market-rates-inner')
-#     rate = entries.css('table')[0].css('tr')[1].css('td')[1].text
-#     @formattedrate = rate[6..8]
-#     render template: 'parallel/home'
-#   end
-#
-# end

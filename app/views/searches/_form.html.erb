@@ -1,0 +1,32 @@
+<%= form_with(model: search, local: true) do |form| %>
+  <% if search.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(search.errors.count, "error") %> prohibited this search from being saved:</h2>
+
+      <ul>
+      <% search.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :search_terms %>
+    <%= form.text_field :search_terms, id: :search_search_terms %>
+  </div>
+
+  <div class="field">
+    <%= form.label :telecommute %>
+    <%= form.check_box :telecommute, id: :search_telecommute %>
+  </div>
+
+  <div class="field">
+    <%= form.label :full_time %>
+    <%= form.check_box :full_time, id: :search_full_time %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

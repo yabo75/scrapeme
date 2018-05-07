@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Search terms:</strong>
+  <%= @search.search_terms %>
+</p>
+
+<p>
+  <strong>Telecommute:</strong>
+  <%= @search.telecommute %>
+</p>
+
+<p>
+  <strong>Full time:</strong>
+  <%= @search.full_time %>
+</p>
+
+<%= link_to 'Edit', edit_search_path(@search) %> |
+<%= link_to 'Back', searches_path %>
