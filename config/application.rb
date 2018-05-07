@@ -1,5 +1,5 @@
 require_relative 'boot'
-
+config.autoload_paths += %W(#{config.root}/lib)
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
