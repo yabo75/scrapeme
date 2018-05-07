@@ -4,6 +4,9 @@ Rails.cache.fetch("stream_data", expires_in: 5.minutes) do
   Job.search
 end
 
+class Job < ApplicationRecord
+
+
 def counties
 counties = {"selected  all south florida" => "", "all south florida" => "", "broward county" => "brw", "miami/dade" => "mdc", "palm beach co" => "pbc"}
 @counties = counties
@@ -15,8 +18,6 @@ categories = {"admin/office" => "ofc", "business" => "bus", "customer service" =
 end
 
 
-class Job < ApplicationRecord
-
 def search
 
     #require 'open_uri_redirections'
@@ -24,8 +25,8 @@ def search
     require 'open-uri'
 
     get '/' do
-    telecommute = false
-    full_time = false
+    # telecommute = false
+    # full_time = false
 
     if telecommute == true
     telecommuter = '&is_telecommuting=1'
@@ -41,23 +42,23 @@ def search
 
 
 
-    counties = ['brw/', 'mdc/', 'pbc/']
+
     terms = ['full stack', 'full-stack']
 
     # ?query=#{term}#{telecommuter}#{wageslave}
     # ?query=#{term}
 
-    counties.each do |county|
+    @counties.each_value do |county|
       terms.each do |term|
         url = "https://miami.craigslist.org/search/#{county}sof?query=#{term}#{telecommuter}#{wageslave}"
-
-          puts '====================================='
-          puts '====================================='
-          puts '                                     '
-          puts "    #{county} // #{term}             "
-          puts '                                     '
-          puts '====================================='
-          puts '====================================='
+          #
+          # puts '====================================='
+          # puts '====================================='
+          # puts '                                     '
+          # puts "    #{county} // #{term}             "
+          # puts '                                     '
+          # puts '====================================='
+          # puts '====================================='
 
 
         document = open(url)
@@ -67,36 +68,32 @@ def search
 
 
       site_content.css('.content').css('.result-row').each do |row|
-      job_title = row.css('.hdrlnk').first.inner_text
-      url = row.css('.hdrlnk').first.attributes["href"].value
-      post_time = row.css('time').first.attributes["datetime"].value
-      city = row.css('.result-hood')
+      job.title = row.css('.hdrlnk').first.inner_text
+      job.link = row.css('.hdrlnk').first.attributes["href"].value
+      job.post_time = row.css('time').first.attributes["datetime"].value
+      location = row.css('.result-hood')
 
-      if city.any?
-        location = city.first.inner_text.strip
+      if location.any?
+        job.city = location.first.inner_text.strip
       else
-        location = ''
+        job.city = ''
       end
 
 
 
 
-      puts "     #{location}, #{job_title}       "
-      puts "     Posted: #{post_time}            "
-      puts "     Link:  #{url}                   "
-      puts '====================================='
+      # puts "     #{location}, #{job_title}       "
+      # puts "     Posted: #{post_time}            "
+      # puts "     Link:  #{url}                   "
+      # puts '====================================='
 
 
     end
 
     end
     end
-
-
-
-
-
-      render template: 'jobs/home'
+    
+      render template: 'jobs#index'
   end
 
 
