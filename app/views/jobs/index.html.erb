@@ -4,10 +4,21 @@
 
 <%= link_to 'New Job', new_job_path %>
 
-<!-- <div class="actions">
-  <%= form.submit %>
-</div> -->
 
+<% def counties
+  @counties = {'broward county' => 'brw', 'selected  all south florida' => '', 'all south florida' => '', 'miami/dade' => 'mdc', 'palm beach co' => 'pbc'} %>
+<% end %>
+
+
+<%= form_for @counties do |f| %>
+  <% counties.each do |k,v| %>
+    <%= f.field_for k %>
+    <%= f.field_for v %>
+    <% @county = f.field_for v %>
+    <%= f.submit %>
+  <% end -%>
+
+<% @search %>
 
 <table>
   <thead>
@@ -36,3 +47,4 @@
 </table>
 
 <br>
+<% end %>

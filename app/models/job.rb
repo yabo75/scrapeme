@@ -1,24 +1,23 @@
-require 'query_params'
-
-Rails.cache.fetch("stream_data", expires_in: 5.minutes) do
-  Job.search
-end
-
 class Job < ApplicationRecord
+  def initialize(title,link, post_time, city)
+    attr_accessor :title
+    attr_accessor :link
+    attr_accessor :post_time
+    attr_accessor :city
+  end
 
 
-def counties
-counties = {"selected  all south florida" => "", "all south florida" => "", "broward county" => "brw", "miami/dade" => "mdc", "palm beach co" => "pbc"}
-@counties = counties
-end
 
 def categories
 categories = {"admin/office" => "ofc", "business" => "bus", "customer service" => "csr", "education" => "edu", "engineering" => "egr", "etcetera" => "etc", "finance" => "acc", "food/bev/hosp" => "fbh", "general labor" => "lab", "government" => "gov", "healthcare" => "hea", "human resource" => "hum", "legal" => "lgl", "manufacturing" => "mnu", "marketing" => "mar", "media" => "med", "nonprofit" => "npo", "real estate" => "rej", "retail/wholesale" => "ret", "sales" => "sls", "salon/spa/fitness" => "spa", "science" => "sci", "security" => "sec", "skilled trades" => "trd", "selected  software" => "sof", "systems/networking" => "sad", "tech support" => "tch", "transport" => "trp", "tv video radio" => "tfr", "web design" => "web", "writing" => "wri"}
 @categories = categories
 end
 
+# Rails.cache.fetch("stream_data", expires_in: 5.minutes) do
+#   Job.search
+# end
 
-def search
+def self.search
 
     #require 'open_uri_redirections'
     require 'nokogiri'
@@ -48,7 +47,7 @@ def search
     # ?query=#{term}#{telecommuter}#{wageslave}
     # ?query=#{term}
 
-    @counties.each_value do |county|
+    @county.each_value do |county|
       terms.each do |term|
         url = "https://miami.craigslist.org/search/#{county}sof?query=#{term}#{telecommuter}#{wageslave}"
           #
@@ -92,8 +91,9 @@ def search
 
     end
     end
-    
-      render template: 'jobs#index'
+
+      @search = Jobs.search do
+      end
   end
 
 
